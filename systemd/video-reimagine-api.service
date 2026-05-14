@@ -1,0 +1,22 @@
+[Unit]
+Description=video_reimagine — FastAPI backend
+Documentation=https://github.com/local/video_reimagine
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/video_reimagine/backend
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/root/video_reimagine/backend/.venv/bin/uvicorn app.main:app \
+  --host 0.0.0.0 --port 8090 --log-level info
+Restart=always
+RestartSec=2
+TimeoutStopSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=video-reimagine-api
+
+[Install]
+WantedBy=multi-user.target

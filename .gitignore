@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+
+# Node
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# Storage
+backend/app/storage_dir/uploads/*
+backend/app/storage_dir/outputs/*
+backend/app/storage_dir/refs/*
+backend/app/storage_dir/custom_luts/*
+!backend/app/storage_dir/**/.gitkeep
+backend/app/storage_dir/*.db
+*.sqlite
+*.sqlite3
+*.db
+
+# ML
+backend/ml/nlut/checkpoints/
+backend/ml/nlut/pretrained/
+
+# TLS certs (regenerate via scripts/refresh-cert.sh)
+certs/*.crt
+certs/*.key
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+*.log
+logs/

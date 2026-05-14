@@ -1,0 +1,33 @@
+[Unit]
+Description=video_reimagine — Next.js frontend (HTTPS)
+Documentation=https://github.com/local/video_reimagine
+After=network-online.target tailscaled.service video-reimagine-api.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/video_reimagine/frontend
+Environment=NODE_ENV=production
+Environment=PATH=/opt/node20/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=HOST=0.0.0.0
+Environment=PORT=8091
+Environment=HTTPS_CERT=/root/video_reimagine/certs/upscale-demo.tail2074ee.ts.net.crt
+Environment=HTTPS_KEY=/root/video_reimagine/certs/upscale-demo.tail2074ee.ts.net.key
+
+# Refresh the Tailscale cert if it's missing or expiring within 7 days.
+# Failure here is non-fatal — the server falls back to plain HTTP if the
+# cert isn't present.
+ExecStartPre=-/root/video_reimagine/scripts/refresh-cert.sh
+
+ExecStart=/opt/node20/bin/node server.js
+
+Restart=always
+RestartSec=3
+TimeoutStopSec=15
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=video-reimagine-web
+
+[Install]
+WantedBy=multi-user.target
